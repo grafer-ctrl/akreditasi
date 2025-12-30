@@ -3,33 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Akreditasi Radiologi (Fixed)</title>
+    <title>Sistem Akreditasi Radiologi (Final)</title>
     
-    <!-- Fonts & Bootstrap (Tampilan) -->
+    <!-- Library Tampilan (Bootstrap & FontAwesome) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        /* Gaya CSS (Tampilan) */
+        /* --- CSS STYLE (Tampilan) --- */
         :root { --primary-color: #4e73df; --bg-color: #f8f9fc; --success-color: #1cc88a; --warning-color: #f6c23e; --danger-color: #e74a3b; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: #5a5c69; padding-bottom: 80px; }
+        
+        /* Header */
         .app-header { background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); color: white; padding: 30px 0 60px; margin-bottom: -40px; border-radius: 0 0 25px 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* Tabel & Card */
         .main-card { background: white; border-radius: 20px; border: none; box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); overflow: hidden; }
         .table thead th { background-color: #eaecf4; color: #4e73df; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; padding: 15px; border: none; }
         .table tbody td { vertical-align: middle; padding: 15px; border-bottom: 1px solid #e3e6f0; }
+        
+        /* Badges */
         .badge-code { background-color: #eef2ff; color: #4e73df; font-weight: 700; padding: 6px 10px; border-radius: 8px; font-size: 0.85rem; }
         .badge-ep { background-color: #f8f9fc; border: 1px solid #d1d3e2; color: #858796; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem; flex-shrink: 0; }
         .doc-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 15px; margin-right: 3px; display: inline-block; font-weight: 600; margin-bottom: 3px;}
         .tag-regulasi { background-color: #d1e7dd; color: #0f5132; }
         .tag-dokumen { background-color: #f8d7da; color: #842029; }
+        
+        /* Dropdown Status */
         .form-select-custom { border-radius: 50px; font-weight: 600; font-size: 0.8rem; text-align: center; text-align-last: center; border: none; color: white; cursor: pointer; padding: 8px 25px 8px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .bg-sudah { background-color: var(--success-color) !important; }
         .bg-proses { background-color: var(--warning-color) !important; color: #333 !important; }
         .bg-belum { background-color: var(--danger-color) !important; }
+        
+        /* Tombol Upload */
         .btn-upload { border: 2px dashed #4e73df; color: #4e73df; background-color: #f8f9fc; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s; position: relative; }
         .btn-upload:hover { background-color: #eef2ff; }
         .btn-upload.loading { pointer-events: none; opacity: 0.6; }
+        
+        /* File List */
         .file-list { margin-top: 10px; max-height: 150px; overflow-y: auto; }
         .file-item { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #e3e6f0; padding: 5px 10px; margin-bottom: 5px; border-radius: 6px; font-size: 0.75rem; }
         .file-link { text-decoration: none; color: #333; display: flex; align-items: center; flex-grow: 1; overflow: hidden; cursor: pointer; }
@@ -39,6 +51,7 @@
         .fa-file-word { color: #4e73df; }
         .btn-delete-file { color: #ccc; cursor: pointer; padding: 0 5px; margin-left: 10px; }
         .btn-delete-file:hover { color: #e74a3b; }
+
         @media (max-width: 768px) {
             .table thead { display: none; }
             .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
@@ -53,12 +66,14 @@
     <header class="app-header">
         <div class="container">
             <h2 class="fw-bold mb-0"><i class="fas fa-cloud me-2"></i>Akreditasi Radiologi</h2>
-            <p class="mb-0 opacity-75 small">System Status: <span id="connectionStatus" class="badge bg-warning">Menghubungkan...</span></p>
+            <p class="mb-0 opacity-75 small">
+                Status Koneksi: <span id="statusBadge" class="badge bg-secondary">Menghubungkan...</span>
+            </p>
         </div>
     </header>
 
     <div class="container" style="margin-top: -30px;">
-        <!-- Loading -->
+        <!-- Loading Screen -->
         <div id="loadingScreen" class="text-center py-5 bg-white rounded shadow-sm mb-4">
             <div class="spinner-border text-primary" role="status"></div>
             <p class="mt-2 text-muted">Mengambil data dari Firebase...</p>
@@ -66,7 +81,7 @@
 
         <!-- Konten Utama -->
         <div id="mainContent" class="d-none">
-            <!-- Progress -->
+            <!-- Progress Bar -->
             <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; border-left: 5px solid #1cc88a !important;">
                 <div class="card-body d-flex align-items-center justify-content-between py-3">
                     <div>
@@ -81,7 +96,7 @@
                 </div>
             </div>
 
-            <!-- Tabel -->
+            <!-- Tabel Data -->
             <div class="main-card mb-5">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -101,49 +116,41 @@
         </div>
     </div>
 
-    <!-- =============================================== -->
-    <!-- SCRIPT FIREBASE COMPAT (WAJIB UTK HTML BIASA)   -->
-    <!-- =============================================== -->
+    <!-- FIREBASE SDK (COMPAT VERSION) - Wajib untuk Web HTML -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
     <script>
-        // ==========================================
-        // 1. CONFIG (DARI DATA YANG ANDA BERIKAN)
-        // ==========================================
+        // ===============================================
+        // 1. CONFIGURATION (DATA ANDA)
+        // ===============================================
         const firebaseConfig = {
             apiKey: "AIzaSyA_uk9gXZb74jpoPl7-uJ8wj2FvWB-ncPE",
             authDomain: "akreditasi-radiologi.firebaseapp.com",
             projectId: "akreditasi-radiologi",
             
-            // PENTING: Saya pakai .firebasestorage.app sesuai data Anda.
-            // JIKA MASIH LOADING TERUS, GANTI 'firebasestorage.appspot' MENJADI 'appspot.com'
-            storageBucket: "akreditasi-radiologi.firebasestorage.appspot", 
+            // PENTING: Saya ubah ke .appspot.com agar lebih stabil
+            storageBucket: "akreditasi-radiologi.appspot.com", 
             
             messagingSenderId: "279886019434",
             appId: "1:279886019434:web:e0251078598c49da2c4313"
         };
 
-        // Inisialisasi Aplikasi
+        // Initialize Firebase
         try {
             firebase.initializeApp(firebaseConfig);
-            console.log("Firebase initialized");
-        } catch (e) {
-            console.error("Firebase init error:", e);
-            alert("Error inisialisasi Firebase. Cek console.");
-        }
+        } catch(e) { console.error("Firebase Init Error:", e); }
 
         const db = firebase.firestore();
         const storage = firebase.storage();
         
-        // Nama Koleksi Database
         const COLLECTION_NAME = "checklists";
         const DOC_ID = "radiologi_data_utama";
 
-        // ==========================================
+        // ===============================================
         // 2. DATA DEFAULT
-        // ==========================================
+        // ===============================================
         const defaultData = [
             { code: "PP 4", ep: "1", text: "RS menetapkan regulasi pelayanan radiologi klinik", type: ["Regulasi", "Dokumen"], status: "belum", files: [] },
             { code: "PP 4", ep: "2", text: "Pelayanan radiologi 24 jam, 7 hari seminggu", type: ["Regulasi", "Dokumen"], status: "belum", files: [] },
@@ -163,49 +170,41 @@
 
         let appData = [];
 
-        // ==========================================
-        // 3. LOGIKA APLIKASI
-        // ==========================================
-        
-        // --- Init: Baca Data ---
-        function initApp() {
-            const docRef = db.collection(COLLECTION_NAME).doc(DOC_ID);
+        // ===============================================
+        // 3. LOGIC (Init, Render, Upload)
+        // ===============================================
 
-            docRef.onSnapshot((doc) => {
-                // Update status koneksi
-                const statusBadge = document.getElementById('connectionStatus');
-                statusBadge.innerText = "Terhubung";
-                statusBadge.className = "badge bg-success";
+        function initApp() {
+            // Ambil data realtime dari Firestore
+            db.collection(COLLECTION_NAME).doc(DOC_ID).onSnapshot((doc) => {
+                const badge = document.getElementById('statusBadge');
+                badge.innerText = "Terhubung (Online)";
+                badge.className = "badge bg-success";
 
                 if (doc.exists) {
                     appData = doc.data().items;
                 } else {
                     appData = JSON.parse(JSON.stringify(defaultData));
-                    docRef.set({ items: appData });
+                    db.collection(COLLECTION_NAME).doc(DOC_ID).set({ items: appData });
                 }
                 
                 renderTable();
                 document.getElementById('loadingScreen').classList.add('d-none');
                 document.getElementById('mainContent').classList.remove('d-none');
             }, (error) => {
-                console.error("Error Read:", error);
-                const statusBadge = document.getElementById('connectionStatus');
-                statusBadge.innerText = "Gagal Koneksi";
-                statusBadge.className = "badge bg-danger";
-                alert("Gagal terhubung ke Database: " + error.message);
+                console.error("Database Error:", error);
+                const badge = document.getElementById('statusBadge');
+                badge.innerText = "Gagal Koneksi";
+                badge.className = "badge bg-danger";
+                alert("Gagal mengambil data database! Pastikan 'Rules' Firestore sudah benar.");
             });
         }
 
-        // --- Save Data ---
         function saveToCloud() {
             db.collection(COLLECTION_NAME).doc(DOC_ID).update({ items: appData })
-            .catch(err => {
-                console.error("Save error:", err);
-                alert("Gagal menyimpan perubahan!");
-            });
+            .catch(err => console.error("Save Error:", err));
         }
 
-        // --- Render Table ---
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             let html = '';
@@ -259,7 +258,6 @@
             saveToCloud();
         }
 
-        // --- UPLOAD LOGIC (Perbaikan) ---
         async function uploadFiles(input, index) {
             const files = input.files;
             if (files.length === 0) return;
@@ -270,9 +268,8 @@
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                // Buat nama folder 'dokumen_radiologi'
                 const uniqueName = Date.now() + '_' + file.name;
-                const fileRef = storage.ref().child('dokumen_radiologi/' + uniqueName);
+                const fileRef = storage.ref().child('dokumen_akreditasi/' + uniqueName);
 
                 try {
                     const snapshot = await fileRef.put(file);
@@ -281,11 +278,11 @@
                     appData[index].files.push({ 
                         name: file.name, 
                         url: downloadURL, 
-                        path: 'dokumen_radiologi/' + uniqueName 
+                        path: 'dokumen_akreditasi/' + uniqueName 
                     });
                 } catch (err) {
-                    console.error("Upload error:", err);
-                    alert("Gagal Upload! 1. Cek Internet. 2. Cek 'Storage Rules' di Firebase Console (harus allow read, write: if true;)");
+                    console.error("Upload Error:", err);
+                    alert("Upload GAGAL! Mohon cek tab 'Rules' di menu Storage Firebase Console Anda. Pastikan sudah allow read/write.");
                 }
             }
             saveToCloud();
@@ -323,13 +320,10 @@
             if(!confirm("Hapus file ini permanen?")) return;
             const fileObj = appData[rowIndex].files[fileIdx];
             
-            // Coba hapus di storage
-            storage.ref().child(fileObj.path).delete()
-            .then(() => {
+            storage.ref().child(fileObj.path).delete().then(() => {
                 removeFromDb(rowIndex, fileIdx);
-            })
-            .catch(err => {
-                console.warn("File storage tidak ditemukan, menghapus referensi di database saja.");
+            }).catch(err => {
+                console.warn("File not found on storage, removing from DB.");
                 removeFromDb(rowIndex, fileIdx);
             });
         }
@@ -348,7 +342,7 @@
             document.getElementById('progressText').innerText = percentage + '%';
         }
 
-        // Jalankan App
+        // Start Application
         window.onload = initApp;
 
     </script>
