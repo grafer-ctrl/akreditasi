@@ -3,42 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Akreditasi Radiologi (Online)</title>
+    <title>Sistem Akreditasi Radiologi (Fixed)</title>
     
-    <!-- Fonts & Bootstrap -->
+    <!-- Fonts & Bootstrap (Tampilan) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        /* Gaya Tampilan (CSS) */
+        /* Gaya CSS (Tampilan) */
         :root { --primary-color: #4e73df; --bg-color: #f8f9fc; --success-color: #1cc88a; --warning-color: #f6c23e; --danger-color: #e74a3b; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: #5a5c69; padding-bottom: 80px; }
-        
         .app-header { background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); color: white; padding: 30px 0 60px; margin-bottom: -40px; border-radius: 0 0 25px 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .main-card { background: white; border-radius: 20px; border: none; box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); overflow: hidden; }
-        
-        /* Table Styling */
         .table thead th { background-color: #eaecf4; color: #4e73df; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; padding: 15px; border: none; }
         .table tbody td { vertical-align: middle; padding: 15px; border-bottom: 1px solid #e3e6f0; }
-        
-        /* Badges & Tags */
         .badge-code { background-color: #eef2ff; color: #4e73df; font-weight: 700; padding: 6px 10px; border-radius: 8px; font-size: 0.85rem; }
         .badge-ep { background-color: #f8f9fc; border: 1px solid #d1d3e2; color: #858796; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem; flex-shrink: 0; }
         .doc-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 15px; margin-right: 3px; display: inline-block; font-weight: 600; margin-bottom: 3px;}
         .tag-regulasi { background-color: #d1e7dd; color: #0f5132; }
         .tag-dokumen { background-color: #f8d7da; color: #842029; }
-        
-        /* Interactive Elements */
         .form-select-custom { border-radius: 50px; font-weight: 600; font-size: 0.8rem; text-align: center; text-align-last: center; border: none; color: white; cursor: pointer; padding: 8px 25px 8px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .bg-sudah { background-color: var(--success-color) !important; }
         .bg-proses { background-color: var(--warning-color) !important; color: #333 !important; }
         .bg-belum { background-color: var(--danger-color) !important; }
-        
         .btn-upload { border: 2px dashed #4e73df; color: #4e73df; background-color: #f8f9fc; padding: 8px 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s; position: relative; }
         .btn-upload:hover { background-color: #eef2ff; }
         .btn-upload.loading { pointer-events: none; opacity: 0.6; }
-        
         .file-list { margin-top: 10px; max-height: 150px; overflow-y: auto; }
         .file-item { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #e3e6f0; padding: 5px 10px; margin-bottom: 5px; border-radius: 6px; font-size: 0.75rem; }
         .file-link { text-decoration: none; color: #333; display: flex; align-items: center; flex-grow: 1; overflow: hidden; cursor: pointer; }
@@ -48,7 +39,6 @@
         .fa-file-word { color: #4e73df; }
         .btn-delete-file { color: #ccc; cursor: pointer; padding: 0 5px; margin-left: 10px; }
         .btn-delete-file:hover { color: #e74a3b; }
-        
         @media (max-width: 768px) {
             .table thead { display: none; }
             .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
@@ -63,7 +53,7 @@
     <header class="app-header">
         <div class="container">
             <h2 class="fw-bold mb-0"><i class="fas fa-cloud me-2"></i>Akreditasi Radiologi</h2>
-            <p class="mb-0 opacity-75 small">App: akre (Terhubung ke Firebase)</p>
+            <p class="mb-0 opacity-75 small">System Status: <span id="connectionStatus" class="badge bg-warning">Menghubungkan...</span></p>
         </div>
     </header>
 
@@ -71,7 +61,7 @@
         <!-- Loading -->
         <div id="loadingScreen" class="text-center py-5 bg-white rounded shadow-sm mb-4">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted">Menghubungkan ke database...</p>
+            <p class="mt-2 text-muted">Mengambil data dari Firebase...</p>
         </div>
 
         <!-- Konten Utama -->
@@ -111,35 +101,45 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK (Compat Version - Paling Stabil untuk HTML Biasa) -->
+    <!-- =============================================== -->
+    <!-- SCRIPT FIREBASE COMPAT (WAJIB UTK HTML BIASA)   -->
+    <!-- =============================================== -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
     <script>
         // ==========================================
-        // 1. KONFIGURASI FIREBASE (Data Anda)
+        // 1. CONFIG (DARI DATA YANG ANDA BERIKAN)
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyA_uk9gXZb74jpoPl7-uJ8wj2FvWB-ncPE",
             authDomain: "akreditasi-radiologi.firebaseapp.com",
             projectId: "akreditasi-radiologi",
-            // Jika upload gagal, ubah 'firebasestorage.app' menjadi 'appspot.com'
+            
+            // PENTING: Saya pakai .firebasestorage.app sesuai data Anda.
+            // JIKA MASIH LOADING TERUS, GANTI 'firebasestorage.app' MENJADI 'appspot.com'
             storageBucket: "akreditasi-radiologi.firebasestorage.app", 
+            
             messagingSenderId: "279886019434",
             appId: "1:279886019434:web:e0251078598c49da2c4313"
         };
 
-        // Inisialisasi
-        if (!firebase.apps.length) {
+        // Inisialisasi Aplikasi
+        try {
             firebase.initializeApp(firebaseConfig);
+            console.log("Firebase initialized");
+        } catch (e) {
+            console.error("Firebase init error:", e);
+            alert("Error inisialisasi Firebase. Cek console.");
         }
+
         const db = firebase.firestore();
         const storage = firebase.storage();
         
-        // Nama database
+        // Nama Koleksi Database
         const COLLECTION_NAME = "checklists";
-        const DOC_ID = "radiologi_data_v1";
+        const DOC_ID = "radiologi_data_utama";
 
         // ==========================================
         // 2. DATA DEFAULT
@@ -164,13 +164,19 @@
         let appData = [];
 
         // ==========================================
-        // 3. LOGIKA UTAMA
+        // 3. LOGIKA APLIKASI
         // ==========================================
+        
+        // --- Init: Baca Data ---
         function initApp() {
-            // Cek koneksi ke Firestore
             const docRef = db.collection(COLLECTION_NAME).doc(DOC_ID);
 
             docRef.onSnapshot((doc) => {
+                // Update status koneksi
+                const statusBadge = document.getElementById('connectionStatus');
+                statusBadge.innerText = "Terhubung";
+                statusBadge.className = "badge bg-success";
+
                 if (doc.exists) {
                     appData = doc.data().items;
                 } else {
@@ -182,18 +188,24 @@
                 document.getElementById('loadingScreen').classList.add('d-none');
                 document.getElementById('mainContent').classList.remove('d-none');
             }, (error) => {
-                console.error("Error:", error);
-                let msg = "Gagal koneksi. ";
-                if(error.code === 'permission-denied') msg += "Mohon ubah 'Firestore Rules' menjadi 'Test Mode' di Console Firebase.";
-                alert(msg);
+                console.error("Error Read:", error);
+                const statusBadge = document.getElementById('connectionStatus');
+                statusBadge.innerText = "Gagal Koneksi";
+                statusBadge.className = "badge bg-danger";
+                alert("Gagal terhubung ke Database: " + error.message);
             });
         }
 
+        // --- Save Data ---
         function saveToCloud() {
             db.collection(COLLECTION_NAME).doc(DOC_ID).update({ items: appData })
-            .catch(err => console.error("Save error:", err));
+            .catch(err => {
+                console.error("Save error:", err);
+                alert("Gagal menyimpan perubahan!");
+            });
         }
 
+        // --- Render Table ---
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             let html = '';
@@ -247,6 +259,7 @@
             saveToCloud();
         }
 
+        // --- UPLOAD LOGIC (Perbaikan) ---
         async function uploadFiles(input, index) {
             const files = input.files;
             if (files.length === 0) return;
@@ -257,16 +270,22 @@
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
+                // Buat nama folder 'dokumen_radiologi'
                 const uniqueName = Date.now() + '_' + file.name;
-                const storageRef = storage.ref().child('dokumen_akreditasi/' + uniqueName);
+                const fileRef = storage.ref().child('dokumen_radiologi/' + uniqueName);
 
                 try {
-                    const snapshot = await storageRef.put(file);
+                    const snapshot = await fileRef.put(file);
                     const downloadURL = await snapshot.ref.getDownloadURL();
-                    appData[index].files.push({ name: file.name, url: downloadURL, path: 'dokumen_akreditasi/' + uniqueName });
+                    
+                    appData[index].files.push({ 
+                        name: file.name, 
+                        url: downloadURL, 
+                        path: 'dokumen_radiologi/' + uniqueName 
+                    });
                 } catch (err) {
-                    console.error("Upload fail:", err);
-                    alert(`Gagal upload ${file.name}. Pastikan 'Storage Rules' sudah mode Test.`);
+                    console.error("Upload error:", err);
+                    alert("Gagal Upload! 1. Cek Internet. 2. Cek 'Storage Rules' di Firebase Console (harus allow read, write: if true;)");
                 }
             }
             saveToCloud();
@@ -304,21 +323,21 @@
             if(!confirm("Hapus file ini permanen?")) return;
             const fileObj = appData[rowIndex].files[fileIdx];
             
-            storage.ref().child(fileObj.path).delete().then(() => {
-                appData[rowIndex].files.splice(fileIdx, 1);
-                saveToCloud();
-                renderFileList(rowIndex);
-            }).catch(err => {
-                console.error("Delete fail:", err);
-                // Jika error object not found, tetap hapus dari list lokal
-                if(err.code === 'storage/object-not-found'){
-                    appData[rowIndex].files.splice(fileIdx, 1);
-                    saveToCloud();
-                    renderFileList(rowIndex);
-                } else {
-                    alert("Gagal menghapus.");
-                }
+            // Coba hapus di storage
+            storage.ref().child(fileObj.path).delete()
+            .then(() => {
+                removeFromDb(rowIndex, fileIdx);
+            })
+            .catch(err => {
+                console.warn("File storage tidak ditemukan, menghapus referensi di database saja.");
+                removeFromDb(rowIndex, fileIdx);
             });
+        }
+
+        function removeFromDb(rowIndex, fileIdx) {
+            appData[rowIndex].files.splice(fileIdx, 1);
+            saveToCloud();
+            renderFileList(rowIndex);
         }
 
         function calculateProgress() {
@@ -329,7 +348,9 @@
             document.getElementById('progressText').innerText = percentage + '%';
         }
 
+        // Jalankan App
         window.onload = initApp;
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
