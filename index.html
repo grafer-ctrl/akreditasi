@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Akreditasi Radiologi</title>
+    <title>Sistem Akreditasi Radiologi + Download</title>
     
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts & Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
@@ -26,10 +24,10 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: #5a5c69;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
         }
 
-        /* --- Header & Dashboard --- */
+        /* --- Header --- */
         .app-header {
             background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
             color: white;
@@ -37,20 +35,6 @@
             margin-bottom: -40px;
             border-radius: 0 0 25px 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--primary-color);
-            transition: transform 0.2s;
-        }
-        
-        .stats-card:hover {
-            transform: translateY(-3px);
         }
 
         /* --- Table Styling --- */
@@ -67,9 +51,9 @@
             color: #4e73df;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            border: none;
+            font-size: 0.8rem;
             padding: 15px;
+            border: none;
         }
 
         .table tbody td {
@@ -78,14 +62,15 @@
             border-bottom: 1px solid #e3e6f0;
         }
 
-        /* Kode & EP Badge */
+        /* --- Components --- */
         .badge-code {
             background-color: #eef2ff;
             color: #4e73df;
             font-weight: 700;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .badge-ep {
@@ -93,56 +78,122 @@
             border: 1px solid #d1d3e2;
             color: #858796;
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            flex-shrink: 0;
         }
 
-        /* Badge Tipe Dokumen */
         .doc-tag {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-right: 5px;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 15px;
+            margin-right: 3px;
             display: inline-block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
         .tag-regulasi { background-color: #d1e7dd; color: #0f5132; }
         .tag-dokumen { background-color: #f8d7da; color: #842029; }
 
-        /* --- Custom Select Dropdown --- */
-        .status-select-wrapper {
-            position: relative;
-            width: 100%;
-            min-width: 140px;
-        }
-
+        /* --- Status Select --- */
         .form-select-custom {
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             text-align-last: center;
             border: none;
             color: white;
             cursor: pointer;
-            padding: 10px 30px 10px 15px;
-            background-position: right 15px center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            padding: 8px 25px 8px 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .bg-sudah { background-color: var(--success-color) !important; }
+        .bg-proses { background-color: var(--warning-color) !important; color: #333 !important; }
+        .bg-belum { background-color: var(--danger-color) !important; }
+
+        /* --- Upload Component Styles --- */
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
         }
 
-        .bg-sudah { background-color: var(--success-color) !important; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='white' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); }
-        .bg-proses { background-color: var(--warning-color) !important; color: #333 !important; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='black' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); }
-        .bg-belum { background-color: var(--danger-color) !important; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='white' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"); }
+        .btn-upload {
+            border: 2px dashed #4e73df;
+            color: #4e73df;
+            background-color: #f8f9fc;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
 
-        /* --- RESPONSIVE MOBILE VIEW (Card Layout) --- */
+        .btn-upload:hover {
+            background-color: #eef2ff;
+        }
+
+        .file-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid #e3e6f0;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        
+        .file-item:hover {
+            background-color: #f8f9fc;
+        }
+
+        .file-link {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .file-link:hover {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .file-icon { margin-right: 8px; font-size: 1.1em; }
+        .fa-file-pdf { color: #e74a3b; }
+        .fa-file-word { color: #4e73df; }
+        
+        .btn-delete-file {
+            color: #ccc;
+            cursor: pointer;
+            padding: 0 5px;
+            margin-left: 10px;
+            z-index: 2; /* Agar berada di atas link */
+        }
+        .btn-delete-file:hover { color: #e74a3b; }
+
+        /* --- Responsive Mobile --- */
         @media (max-width: 768px) {
             .table thead { display: none; }
             .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
@@ -154,37 +205,20 @@
                 box-shadow: 0 2px 10px rgba(0,0,0,0.05);
                 border: 1px solid #f1f1f1;
                 padding: 15px;
-                position: relative;
             }
 
             .table td {
-                padding: 10px 5px;
-                text-align: left;
-                border-bottom: none;
+                padding: 8px 0;
+                border: none;
             }
 
-            /* Layouting Mobile Content */
-            td.code-col {
+            .mobile-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 1px solid #eee !important;
-                padding-bottom: 10px !important;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
                 margin-bottom: 10px;
-            }
-
-            td.desc-col {
-                font-size: 0.95rem;
-                line-height: 1.5;
-                color: #333;
-            }
-
-            td.type-col {
-                padding-top: 0;
-            }
-
-            td.action-col {
-                margin-top: 10px;
             }
         }
     </style>
@@ -194,100 +228,97 @@
     <!-- Header -->
     <header class="app-header">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h2 class="fw-bold mb-0"><i class="fas fa-x-ray me-2"></i>Radiologi Klinik</h2>
-                    <p class="mb-0 opacity-75 small">Checklist Pemenuhan Standar Akreditasi (PP 4 - PP 4.5)</p>
-                </div>
-            </div>
+            <h2 class="fw-bold mb-0"><i class="fas fa-hospital-user me-2"></i>Akreditasi Radiologi</h2>
+            <p class="mb-0 opacity-75 small">Manajemen Dokumen & Regulasi (PP 4 - PP 4.5)</p>
         </div>
     </header>
 
     <div class="container" style="margin-top: -30px;">
         
-        <!-- Dashboard Summary -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="stats-card border-start-primary d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="text-xs fw-bold text-primary text-uppercase mb-1">Capaian Target</div>
-                        <div class="h5 mb-0 fw-bold text-gray-800" id="progressText">0%</div>
-                    </div>
-                    <div class="w-50 ms-3">
-                        <div class="progress" style="height: 10px; border-radius: 5px;">
-                            <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div class="ms-3 text-gray-300">
-                        <i class="fas fa-clipboard-check fa-2x"></i>
+        <!-- Dashboard Progress -->
+        <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; border-left: 5px solid #1cc88a !important;">
+            <div class="card-body d-flex align-items-center justify-content-between py-3">
+                <div>
+                    <div class="text-xs fw-bold text-success text-uppercase mb-1">Total Capaian</div>
+                    <div class="h5 mb-0 fw-bold text-gray-800" id="progressText">0%</div>
+                </div>
+                <div class="w-50 mx-3">
+                    <div class="progress" style="height: 10px; border-radius: 5px;">
+                        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content Table -->
+        <!-- Main Table -->
         <div class="main-card mb-5">
             <div class="table-responsive">
                 <table class="table table-hover mb-0" id="checklistTable">
                     <thead>
                         <tr>
-                            <th width="10%">Standar</th>
-                            <th width="50%">Elemen Penilaian</th>
-                            <th width="15%">Bukti</th>
-                            <th width="20%">Status Target</th>
+                            <th width="10%">Kode</th>
+                            <th width="40%">Elemen Penilaian</th>
+                            <th width="12%">Bukti</th>
+                            <th width="15%">Status Target</th>
+                            <th width="23%">Upload Bukti (Max 100)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Data Rows Generated by JS for cleaner code -->
+                    <tbody id="tableBody">
+                        <!-- Data will be rendered here -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Script Logic -->
+    <!-- Javascript Logic -->
     <script>
-        // Data Struktur untuk memudahkan rendering
-        const checklistData = [
-            { code: "PP 4", ep: "1", text: "Rumah Sakit menetapkan regulasi pelayanan radiologi klinik", type: ["Regulasi", "Dokumen"], status: "sudah" },
-            { code: "PP 4", ep: "2", text: "Terdapat pelayanan radiologi 24 jam, 7 hari seminggu", type: ["Regulasi", "Dokumen"], status: "sudah" },
+        // Data Structure
+        let checklistData = [
+            { code: "PP 4", ep: "1", text: "Rumah Sakit menetapkan regulasi pelayanan radiologi klinik", type: ["Regulasi", "Dokumen"], status: "sudah", files: [] },
+            { code: "PP 4", ep: "2", text: "Terdapat pelayanan radiologi 24 jam, 7 hari seminggu", type: ["Regulasi", "Dokumen"], status: "sudah", files: [] },
             
-            { code: "PP 4.1", ep: "1", text: "Direktur menetapkan penanggung jawab radiologi klinik yang memiliki kompetensi sesuai ketentuan.", type: ["Regulasi", "Dokumen"], status: "sudah" },
-            { code: "PP 4.1", ep: "2", text: "Terdapat bukti pengawasan pelayanan radiologi klinik oleh penanggung jawab radiologi klinik.", type: ["Dokumen"], status: "sudah" },
+            { code: "PP 4.1", ep: "1", text: "Direktur menetapkan penanggung jawab radiologi klinik yang kompeten.", type: ["Regulasi", "Dokumen"], status: "sudah", files: [] },
+            { code: "PP 4.1", ep: "2", text: "Bukti pengawasan pelayanan radiologi klinik oleh penanggung jawab.", type: ["Dokumen"], status: "sudah", files: [] },
 
-            { code: "PP 4.2", ep: "1", text: "Staf radiologi klinik yang membuat interpretasi telah memenuhi persyaratan kredensial", type: ["Dokumen"], status: "proses" },
-            { code: "PP 4.2", ep: "2", text: "Staf radiologi dan staf lain yang melaksanakan pemeriksaan memenuhi persyaratan kredensial.", type: ["Dokumen"], status: "proses" },
+            { code: "PP 4.2", ep: "1", text: "Staf radiologi yang membuat interpretasi memenuhi kredensial", type: ["Dokumen"], status: "proses", files: [] },
+            { code: "PP 4.2", ep: "2", text: "Staf pelaksana pemeriksaan memenuhi persyaratan kredensial.", type: ["Dokumen"], status: "proses", files: [] },
 
-            { code: "PP 4.3", ep: "1", text: "Rumah sakit menetapkan kerangka waktu penyelesaian pemeriksaan radiologi klinik.", type: ["Regulasi"], status: "proses" },
-            { code: "PP 4.3", ep: "2", text: "Dilakukan pencatatan dan evaluasi waktu penyelesaian pemeriksaan radiologi klinik.", type: ["Dokumen"], status: "proses" },
-            { code: "PP 4.3", ep: "3", text: "Dilakukan pencatatan dan evaluasi waktu penyelesaian pemeriksaan cito.", type: ["Dokumen"], status: "proses" },
-            { code: "PP 4.3", ep: "4", text: "Terdapat bukti pencatatan dan evaluasi pelayanan radiologi rujukan.", type: ["Dokumen"], status: "proses" },
+            { code: "PP 4.3", ep: "1", text: "Penetapan kerangka waktu penyelesaian pemeriksaan radiologi.", type: ["Regulasi"], status: "proses", files: [] },
+            { code: "PP 4.3", ep: "2", text: "Pencatatan dan evaluasi waktu penyelesaian pemeriksaan.", type: ["Dokumen"], status: "proses", files: [] },
+            { code: "PP 4.3", ep: "3", text: "Pencatatan dan evaluasi waktu penyelesaian pemeriksaan cito.", type: ["Dokumen"], status: "proses", files: [] },
+            { code: "PP 4.3", ep: "4", text: "Bukti pencatatan dan evaluasi pelayanan radiologi rujukan.", type: ["Dokumen"], status: "proses", files: [] },
 
-            { code: "PP 4.4", ep: "1", text: "Proses pengelolaan logistic film x-ray, reagens, dan bahan lainnya, termasuk kekosongan.", type: ["Dokumen"], status: "proses" },
-            { code: "PP 4.4", ep: "2", text: "Semua film x-ray disimpan, diberi label, dan didistribusi sesuai pedoman.", type: ["Dokumen"], status: "proses" },
+            { code: "PP 4.4", ep: "1", text: "Proses pengelolaan logistik film x-ray, reagens, dan bahan lainnya.", type: ["Dokumen"], status: "proses", files: [] },
+            { code: "PP 4.4", ep: "2", text: "Film x-ray disimpan, diberi label, dan didistribusi sesuai pedoman.", type: ["Dokumen"], status: "proses", files: [] },
 
-            { code: "PP 4.5", ep: "1", text: "Bukti unit radiologi klinik telah melaksanakan Pemantapan Mutu Internal (PMI).", type: ["Dokumen"], status: "proses" },
-            { code: "PP 4.5", ep: "2", text: "Bukti unit radiologi klinik melaksanakan Pemantapan Mutu Eksternal (PME).", type: ["Dokumen"], status: "proses" }
+            { code: "PP 4.5", ep: "1", text: "Bukti unit radiologi melaksanakan Pemantapan Mutu Internal (PMI).", type: ["Dokumen"], status: "proses", files: [] },
+            { code: "PP 4.5", ep: "2", text: "Bukti unit radiologi melaksanakan Pemantapan Mutu Eksternal (PME).", type: ["Dokumen"], status: "proses", files: [] }
         ];
 
-        // Render Table Function
+        // --- Main Render Function ---
         function renderTable() {
-            const tbody = document.querySelector('#checklistTable tbody');
+            const tbody = document.getElementById('tableBody');
             let html = '';
 
             checklistData.forEach((item, index) => {
-                // Generate Badges
                 let badges = item.type.map(t => {
                     let className = t === 'Regulasi' ? 'tag-regulasi' : 'tag-dokumen';
                     return `<span class="doc-tag ${className}">${t}</span>`;
                 }).join('');
 
+                let statusClass = '';
+                if(item.status === 'sudah') statusClass = 'bg-sudah';
+                else if(item.status === 'proses') statusClass = 'bg-proses';
+                else statusClass = 'bg-belum';
+
                 html += `
                     <tr>
                         <td class="code-col">
-                            <span class="badge-code">${item.code}</span>
-                            <!-- Mobile only EP display inside header -->
-                            <span class="d-md-none badge-ep float-end">EP ${item.ep}</span>
+                            <div class="d-flex align-items-center justify-content-between d-md-block mobile-header">
+                                <span class="badge-code">${item.code}</span>
+                                <span class="d-md-none badge-ep">EP ${item.ep}</span>
+                            </div>
                         </td>
                         <td class="desc-col">
                             <div class="d-flex align-items-start">
@@ -295,61 +326,125 @@
                                 <div>${item.text}</div>
                             </div>
                         </td>
-                        <td class="type-col">${badges}</td>
+                        <td class="type-col d-flex flex-wrap align-items-center">${badges}</td>
                         <td class="action-col">
-                            <div class="status-select-wrapper">
-                                <select class="form-select form-select-custom" onchange="updateStatus(this, ${index})">
-                                    <option value="sudah" ${item.status === 'sudah' ? 'selected' : ''}>Sudah Ada</option>
-                                    <option value="proses" ${item.status === 'proses' ? 'selected' : ''}>Proses</option>
-                                    <option value="belum" ${item.status === 'belum' ? 'selected' : ''}>Belum Ada</option>
-                                </select>
+                            <select class="form-select form-select-custom ${statusClass}" onchange="updateStatus(this, ${index})">
+                                <option value="sudah" ${item.status === 'sudah' ? 'selected' : ''}>Sudah Ada</option>
+                                <option value="proses" ${item.status === 'proses' ? 'selected' : ''}>Proses</option>
+                                <option value="belum" ${item.status === 'belum' ? 'selected' : ''}>Belum Ada</option>
+                            </select>
+                        </td>
+                        <td class="upload-col">
+                            <input type="file" id="fileInput-${index}" class="d-none" multiple accept=".pdf,.doc,.docx" onchange="handleFileUpload(this, ${index})">
+                            <label for="fileInput-${index}" class="btn-upload text-center">
+                                <i class="fas fa-cloud-upload-alt me-1"></i> Pilih File
+                            </label>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted" style="font-size: 0.65rem;">Klik file untuk download</small>
+                                <small class="text-muted" style="font-size: 0.65rem;" id="count-${index}">${item.files.length}/100</small>
                             </div>
+                            <div class="file-list" id="fileList-${index}"></div>
                         </td>
                     </tr>
                 `;
             });
 
             tbody.innerHTML = html;
-            
-            // Initialize colors
-            document.querySelectorAll('.form-select-custom').forEach(select => updateColorClass(select));
+            checklistData.forEach((_, idx) => renderFileList(idx));
             calculateProgress();
         }
 
-        // Update Logic
+        // --- Status Logic ---
         function updateStatus(element, index) {
             checklistData[index].status = element.value;
-            updateColorClass(element);
-            calculateProgress();
-        }
-
-        function updateColorClass(element) {
             element.classList.remove('bg-sudah', 'bg-proses', 'bg-belum');
             if (element.value === 'sudah') element.classList.add('bg-sudah');
             else if (element.value === 'proses') element.classList.add('bg-proses');
             else if (element.value === 'belum') element.classList.add('bg-belum');
+            calculateProgress();
         }
 
         function calculateProgress() {
             const total = checklistData.length;
             const completed = checklistData.filter(item => item.status === 'sudah').length;
             const percentage = Math.round((completed / total) * 100);
-
-            document.getElementById('progressBar').style.width = percentage + '%';
+            const bar = document.getElementById('progressBar');
+            bar.style.width = percentage + '%';
             document.getElementById('progressText').innerText = percentage + '%';
-
-            // Ubah warna progress bar jika 100%
-            if(percentage === 100) {
-                document.getElementById('progressBar').classList.replace('bg-primary', 'bg-success');
-            }
         }
 
-        // Run on load
+        // --- Upload & Download Logic ---
+        function handleFileUpload(input, index) {
+            const newFiles = Array.from(input.files);
+            const currentFiles = checklistData[index].files;
+
+            if (currentFiles.length + newFiles.length > 100) {
+                alert("Maksimal 100 file diperbolehkan per item!");
+                return;
+            }
+
+            const allowedExtensions = ['pdf', 'doc', 'docx'];
+            
+            newFiles.forEach(file => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if(allowedExtensions.includes(ext)) {
+                    // MEMBUAT URL UNTUK DOWNLOAD
+                    const fileUrl = URL.createObjectURL(file);
+                    
+                    // Simpan file beserta URL-nya
+                    checklistData[index].files.push({
+                        originalFile: file,
+                        name: file.name,
+                        url: fileUrl
+                    });
+                } else {
+                    alert(`File ${file.name} ditolak. Hanya PDF dan Word.`);
+                }
+            });
+
+            input.value = ''; 
+            renderFileList(index);
+        }
+
+        function renderFileList(index) {
+            const container = document.getElementById(`fileList-${index}`);
+            const countLabel = document.getElementById(`count-${index}`);
+            const files = checklistData[index].files;
+            
+            countLabel.innerText = `${files.length}/100`;
+            container.innerHTML = '';
+
+            files.forEach((fileObj, fileIdx) => {
+                const ext = fileObj.name.split('.').pop().toLowerCase();
+                let iconClass = 'fa-file-pdf'; 
+                if (ext === 'doc' || ext === 'docx') iconClass = 'fa-file-word';
+
+                const div = document.createElement('div');
+                div.className = 'file-item';
+                
+                // Disini kita membuat Anchor Tag (<a>) dengan atribut 'download'
+                div.innerHTML = `
+                    <a href="${fileObj.url}" download="${fileObj.name}" class="file-link" title="Download ${fileObj.name}">
+                        <i class="fas ${iconClass} file-icon"></i>
+                        <span class="text-truncate" style="max-width: 130px;">${fileObj.name}</span>
+                    </a>
+                    <i class="fas fa-times btn-delete-file" onclick="deleteFile(${index}, ${fileIdx})" title="Hapus"></i>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function deleteFile(rowIndex, fileIndex) {
+            // Kita bisa juga membersihkan memory URL (opsional tapi baik)
+            // URL.revokeObjectURL(checklistData[rowIndex].files[fileIndex].url);
+            
+            checklistData[rowIndex].files.splice(fileIndex, 1);
+            renderFileList(rowIndex);
+        }
+
         window.onload = renderTable;
 
     </script>
-
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
